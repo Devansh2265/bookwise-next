@@ -5,9 +5,11 @@ import { Footer } from "@/components/Footer";
 async function getTrendingBooks() {
   try {
     const res = await fetch(
-      "http://localhost:3000/api/books?q=bestseller",
+      "https://www.googleapis.com/books/v1/volumes?q=bestseller&maxResults=30",
       {
-        cache: "no-store",
+        next: {
+          revalidate: 3600,
+        },
       }
     );
 
@@ -43,10 +45,9 @@ export default async function TrendingPage() {
 
             return (
               <Link
-  href={`/book/${book.id}?title=${encodeURIComponent(info.title)}`}
-  key={book.id}
-  className="group"
->
+                key={book.id}
+                href={`/book/${encodeURIComponent(info.title)}`}
+              >
                 <div className="glass rounded-xl overflow-hidden">
 
                   {info.imageLinks?.thumbnail && (
