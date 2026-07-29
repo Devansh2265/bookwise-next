@@ -13,8 +13,15 @@ export async function GET(req: NextRequest) {
     }
 
     const gutendexRes = await fetch(
-      `https://gutendex.com/books/${bookId}`
-    );
+  `https://gutendex.com/books/${bookId}`,
+  {
+    headers: {
+      "User-Agent": "BookWise/1.0",
+      Accept: "application/json",
+    },
+    cache: "no-store",
+  }
+);
 
     if (!gutendexRes.ok) {
       throw new Error("Failed to fetch Gutendex data");
@@ -62,7 +69,12 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const htmlRes = await fetch(htmlUrl);
+    const htmlRes = await fetch(htmlUrl, {
+  headers: {
+    "User-Agent": "BookWise/1.0",
+  },
+  cache: "no-store",
+});
 
     if (!htmlRes.ok) {
       throw new Error("Failed to fetch Gutenberg HTML");
