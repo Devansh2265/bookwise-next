@@ -12,7 +12,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Fetch book metadata
     const gutendexRes = await fetch(
       `https://gutendex.com/books/${bookId}`
     );
@@ -23,18 +22,46 @@ export async function GET(req: NextRequest) {
 
     const book = await gutendexRes.json();
 
-    const htmlUrl =
-      book.formats["text/html"] ||
-      book.formats["text/html; charset=utf-8"];
+    // Find ANY HTML format
+    const htmlUrl = Object.entries(book.formats).find(
+      ([key, value]) =>
+        key.startsWith("text/html") &&
+        typeof value === "string"
+    )?.[1] as string | undefined;
 
+    // Fallback to plain text if HTML doesn't exist
     if (!htmlUrl) {
-      return NextResponse.json(
-        { error: "No HTML version available" },
-        { status: 404 }
-      );
+      const textUrl = Object.entries(book.formats).find(
+        ([key, value]) =>
+          key.startsWith("text/plain") &&
+          typeof value === "string"
+      )?.[1] as string | undefined;
+
+      if (!textUrl) {
+        return NextResponse.json(
+          { error: "No readable version available" },
+          { status: 404 }
+        );
+      }
+
+      const textRes = await fetch(textUrl);
+
+      if (!textRes.ok) {
+        throw new Error("Failed to fetch plain text");
+      }
+
+      const text = await textRes.text();
+
+      return NextResponse.json({
+        title: book.title,
+        author:
+          book.authors?.[0]?.name || "Unknown Author",
+        cover:
+          book.formats["image/jpeg"] || null,
+        content: `<pre style="white-space:pre-wrap;font-family:serif;">${text}</pre>`,
+      });
     }
 
-    // Download Gutenberg HTML
     const htmlRes = await fetch(htmlUrl);
 
     if (!htmlRes.ok) {
@@ -45,7 +72,6 @@ export async function GET(req: NextRequest) {
 
     const $ = cheerio.load(html);
 
-    // Remove Gutenberg clutter
     $("header").remove();
     $("footer").remove();
     $("nav").remove();
@@ -54,10 +80,8 @@ export async function GET(req: NextRequest) {
     $(".x-ebookmaker-drop").remove();
     $(".toc").remove();
 
-    // Remove first TOC table if present
     $("table").first().remove();
 
-    // Fix image URLs
     $("img").each((_, el) => {
       const src = $(el).attr("src");
 
@@ -75,7 +99,6 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    // Make images responsive
     $("img").attr(
       "style",
       `
@@ -88,8 +111,7 @@ export async function GET(req: NextRequest) {
       `
     );
 
-    let content = $("body").html() || "";
-
+    const content = $("body").html() || "";
 
     return NextResponse.json({
       title: book.title,
@@ -99,7 +121,6 @@ export async function GET(req: NextRequest) {
         book.formats["image/jpeg"] || null,
       content,
     });
-
   } catch (error) {
     console.error(error);
 
