@@ -4,18 +4,26 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 async function getBook(id: string) {
-  const res = await fetch(
-    `http://localhost:3000/api/book-content?id=${id}`,
-    {
-      cache: "no-store",
-    }
-  );
+  try {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "http://localhost:3000";
 
-  if (!res.ok) return null;
+    const res = await fetch(
+      `${baseUrl}/api/book-content?id=${id}`,
+      {
+        cache: "no-store",
+      }
+    );
 
-  return res.json();
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch (error) {
+    console.error("Failed to fetch book:", error);
+    return null;
+  }
 }
-
 const themes = [
   "bg-[radial-gradient(circle_at_top,_#6366f1_0%,_#1e1b4b_40%,_#020617_100%)]",
   "bg-[radial-gradient(circle_at_top,_#3b82f6_0%,_#172554_40%,_#020617_100%)]",
@@ -42,14 +50,14 @@ export default async function ReaderPage({
   }
 
   return (
-    <>
-      <SaveReadingProgress
-        bookId={id}
-        title={book.title}
-        author={book.author}
-        cover={book.cover}
-      />
-
+    {/*
+<SaveReadingProgress
+  bookId={id}
+  title={book.title}
+  author={book.author}
+  cover={book.cover}
+/>
+*/}
       <div className={`min-h-screen text-white ${theme}`}>
         <div className="max-w-6xl mx-auto px-6 py-12">
 
