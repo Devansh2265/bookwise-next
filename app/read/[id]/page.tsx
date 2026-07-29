@@ -50,14 +50,7 @@ export default async function ReaderPage({
   }
 
   return (
-    {/*
-<SaveReadingProgress
-  bookId={id}
-  title={book.title}
-  author={book.author}
-  cover={book.cover}
-/>
-*/}
+   
       <div className={`min-h-screen text-white ${theme}`}>
         <div className="max-w-6xl mx-auto px-6 py-12">
 
@@ -167,6 +160,6 @@ export default async function ReaderPage({
 
         </div>
       </div>
-    </>
+    
   );
 }
