@@ -30,7 +30,7 @@ Return ONLY valid JSON.
 `;
 
     const response = await ai.models.generateContent({
-   model: "gemini-2.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
@@ -38,16 +38,17 @@ Return ONLY valid JSON.
 
     const parsed = JSON.parse(text);
 
-return NextResponse.json(parsed);
+    return NextResponse.json(parsed);
   } catch (error: any) {
-  console.error("AI ERROR:", error);
+    console.error("AI ERROR:", error);
 
-  return NextResponse.json(
-    {
-      error: error?.message || String(error),
-    },
-    {
-      status: 500,
-    }
-  );
+    return NextResponse.json(
+      {
+        error: error?.message || String(error),
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
