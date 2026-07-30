@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthButton from "./AuthButton";
 
 const links = [
   { href: "/", label: "Home" },
@@ -50,20 +51,7 @@ export function Navbar() {
         {/* Buttons */}
         <div className="flex items-center gap-2">
 
- <Link
-  href="/login"
-  className="hidden sm:inline-flex text-sm font-medium px-4 py-2 text-foreground/70 hover:text-primary transition-colors"
->
-  Log In
-</Link>
-
-<Link
-  href="/signup"
-  className="bg-primary text-primary-foreground text-sm font-semibold px-5 py-2 rounded-full hover:shadow-glow-gold transition-all"
->
-  Sign Up
-</Link>
-
+ <AuthButton />
         </div>
 
       </div>

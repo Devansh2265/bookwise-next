@@ -1,5 +1,5 @@
 "use client";
-
+import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 
 export default function LibraryButton({
@@ -28,22 +28,31 @@ export default function LibraryButton({
     );
   }
 
-  async function addBook() {
-    await fetch("/api/library", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        book_id: bookId,
-        title,
-        author,
-        cover,
-      }),
-    });
+ async function addBook() {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-    setSaved(true);
+  if (!session) {
+    alert("Please login to save your books 📚");
+    return;
   }
+
+  await fetch("/api/library", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      book_id: bookId,
+      title,
+      author,
+      cover,
+    }),
+  });
+
+  setSaved(true);
+}
 
   async function removeBook() {
     await fetch("/api/library", {
