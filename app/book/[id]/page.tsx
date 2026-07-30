@@ -36,7 +36,12 @@ export default async function BookPage({
     query?.title || "Unknown Book"
   );
 
-  const analysis = await getAIAnalysis(title);
+  const analysis = {
+  summary: "Test summary",
+  themes: ["Classic"],
+  readingLevel: "Easy",
+  similarBooks: ["Test Book"],
+};
 
   return (
     <div className="min-h-screen">
