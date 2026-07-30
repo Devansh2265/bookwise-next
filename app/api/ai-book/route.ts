@@ -39,16 +39,15 @@ Return ONLY valid JSON.
     const parsed = JSON.parse(text);
 
 return NextResponse.json(parsed);
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+  console.error("AI ERROR:", error);
 
-    return NextResponse.json(
-      {
-        error: "Failed to generate AI response",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json(
+    {
+      error: error?.message || String(error),
+    },
+    {
+      status: 500,
+    }
+  );
 }
