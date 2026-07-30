@@ -18,7 +18,7 @@ export default function DeleteBookmarkButton({
     if (!confirmed) return;
 
     const { error } = await supabase
-      .from("bookmarks")
+     .from("saved_books")
       .delete()
       .eq("id", id);
 

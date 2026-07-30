@@ -1,3 +1,4 @@
+import LibraryButton from "@/components/LibraryButton";
 import GutenbergSearch from "@/components/GutenbergSearch";
 import Link from "next/link";
 
@@ -84,9 +85,14 @@ rel="noopener noreferrer"
                     {book.title}
                   </h3>
 
-                  <div className="mt-3 text-sm text-primary">
-                    📖 Read Now
-                  </div>
+                 <div className="mt-3 text-sm text-primary">
+  📖 Read Now
+</div>
+
+<LibraryButton
+  bookId={String(book.id)}
+  title={book.title}
+/>
                 </div>
               </div>
             </Link>

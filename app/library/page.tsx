@@ -4,7 +4,7 @@ import DeleteBookmarkButton from "@/components/DeleteBookmarkButton";
 
 export default async function LibraryPage() {
   const { data: books, error } = await supabase
-    .from("bookmarks")
+    .from("saved_books")
     .select("*")
     .order("created_at", {
       ascending: false,
