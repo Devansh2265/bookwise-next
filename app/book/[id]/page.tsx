@@ -41,7 +41,18 @@ export default async function BookPage({
     query?.title || "Unknown Book"
   );
 
-  const analysis = await getAIAnalysis(title);
+  let analysis;
+
+try {
+  analysis = await getAIAnalysis(title);
+} catch (error: any) {
+  return (
+    <div style={{ padding: "40px", color: "red" }}>
+      <h1>AI Error</h1>
+      <pre>{error.message}</pre>
+    </div>
+  );
+}
 
   return (
     <div className="min-h-screen">
