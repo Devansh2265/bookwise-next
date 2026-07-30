@@ -69,23 +69,25 @@ try {
 
         {/* Read Button */}
         <div className="mb-10">
-          <a
-            href={`/read/${id}`}
-            className="
-              inline-flex
-              items-center
-              gap-2
-              px-6
-              py-3
-              rounded-xl
-              bg-primary
-              text-primary-foreground
-              font-semibold
-              shadow-lg
-              hover:scale-105
-              transition
-            "
-          >
+         <a
+  href={`https://www.gutenberg.org/ebooks/${id}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="
+    inline-flex
+    items-center
+    gap-2
+    px-6
+    py-3
+    rounded-xl
+    bg-primary
+    text-primary-foreground
+    font-semibold
+    shadow-lg
+    hover:scale-105
+    transition
+  "
+>
             📖 Read This Book
           </a>
         </div>
