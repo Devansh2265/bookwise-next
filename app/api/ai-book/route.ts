@@ -32,7 +32,7 @@ Do not wrap the JSON in \`\`\`json.
 `;
 
     const response = await ai.models.generateContent({
-     model: "gemini-2.5-flash-lite",
+   model: "gemini-2.5-pro",
       contents: prompt,
     });
 
