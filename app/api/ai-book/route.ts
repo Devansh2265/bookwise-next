@@ -16,7 +16,7 @@ Book:
 Title: ${title}
 Author: ${author}
 
-Generate a JSON response with:
+Generate a JSON response with EXACTLY this structure:
 
 {
   "summary": "",
@@ -27,6 +27,8 @@ Generate a JSON response with:
 }
 
 Return ONLY valid JSON.
+Do not use markdown.
+Do not wrap the JSON in \`\`\`json.
 `;
 
     const response = await ai.models.generateContent({
@@ -36,7 +38,14 @@ Return ONLY valid JSON.
 
     const text = response.text ?? "";
 
-    const parsed = JSON.parse(text);
+    console.log("Gemini Raw Response:", text);
+
+    const cleaned = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const parsed = JSON.parse(cleaned);
 
     return NextResponse.json(parsed);
   } catch (error: any) {
