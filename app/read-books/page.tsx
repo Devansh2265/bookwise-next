@@ -67,7 +67,9 @@ export default function ReadBooksPage() {
           {trendingBooks.map((book) => (
             <Link
               key={book.id}
-              href={`/read/${book.id}`}
+             href={`https://www.gutenberg.org/ebooks/${book.id}`}
+target="_blank"
+rel="noopener noreferrer"
               className="group"
             >
               <div className="overflow-hidden rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10">

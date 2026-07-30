@@ -84,7 +84,9 @@ export default async function LibraryPage() {
                   </p>
 
                   <Link
-                    href={`/read/${book.book_id}`}
+                   href={`https://www.gutenberg.org/ebooks/${book.book_id}`}
+target="_blank"
+rel="noopener noreferrer"
                     className="
                       mt-5
                       inline-flex
