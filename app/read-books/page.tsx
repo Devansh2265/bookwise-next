@@ -92,6 +92,7 @@ rel="noopener noreferrer"
 <LibraryButton
   bookId={String(book.id)}
   title={book.title}
+  cover={book.cover}
 />
                 </div>
               </div>

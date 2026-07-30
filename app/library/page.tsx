@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import DeleteBookmarkButton from "@/components/DeleteBookmarkButton";
-
+export const dynamic = "force-dynamic";
 export default async function LibraryPage() {
   const { data: books, error } = await supabase
     .from("saved_books")
