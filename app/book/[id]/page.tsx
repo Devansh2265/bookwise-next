@@ -3,7 +3,11 @@ import { Footer } from "@/components/Footer";
 import AskAI from "../../../components/AskAI";
 
 async function getAIAnalysis(title: string) {
-  const res = await fetch("http://localhost:3000/api/ai-book", {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/ai-book`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +20,8 @@ async function getAIAnalysis(title: string) {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch AI analysis");
+    const errorText = await res.text();
+    throw new Error(`Failed to fetch AI analysis: ${errorText}`);
   }
 
   return res.json();
@@ -36,12 +41,7 @@ export default async function BookPage({
     query?.title || "Unknown Book"
   );
 
-  const analysis = {
-  summary: "Test summary",
-  themes: ["Classic"],
-  readingLevel: "Easy",
-  similarBooks: ["Test Book"],
-};
+  const analysis = await getAIAnalysis(title);
 
   return (
     <div className="min-h-screen">
